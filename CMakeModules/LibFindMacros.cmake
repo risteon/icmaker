@@ -1,3 +1,29 @@
+# -- BEGIN LICENSE BLOCK ----------------------------------------------
+# Copyright (c) 2016, FZI Forschungszentrum Informatik
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# * Redistributions of source code must retain the above copyright notice, this
+#   list of conditions and the following disclaimer.
+#
+# * Redistributions in binary form must reproduce the above copyright notice,
+#   this list of conditions and the following disclaimer in the documentation
+#   and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# -- END LICENSE BLOCK ------------------------------------------------
+
 # Works the same as find_package, but forwards the "REQUIRED" and "QUIET" arguments
 # used for the current package. For this to work, the first parameter must be the
 # prefix of the current package, then the prefix of the new package etc, which are
@@ -133,6 +159,7 @@ endmacro(libfind_library)
 #          EXECUTABLES exec1 exec2 ...
 #          HINTS hint1 hint2 ...
 #          HEADER_PATHS path1 path2 ...
+#          HEADER_SUFFIXES path1 path2 ...
 #          LIBRARY_PATHS path1 path2 ...
 #          EXECUTABLE_PATHS path1 path2 ...
 #          DEFINE definition)
@@ -143,6 +170,7 @@ endmacro(libfind_library)
 #  EXECUTABLES      ... Required executables.
 #  HINTS            ... Path prefixes to search under.
 #  HEADER_PATHS     ... Paths where to search headers.
+#  HEADER_SUFFIXES  ... Subfolders in which the headers should be searched
 #  LIBRARY_PATHS    ... Paths where to search libraries.
 #  EXECUTABLE_PATHS ... Paths where to search executables.
 #  DEFINE           ... Name of the preprocessor macro to define if
@@ -169,7 +197,7 @@ endmacro(libfind_library)
 macro(libfind_lib_with_pkg_config)
   # Get all arguments
   parse_arguments(LIBFIND
-    "HEADERS;LIBRARIES;EXECUTABLES;HINTS;HEADER_PATHS;LIBRARY_PATHS;EXECUTABLE_PATHS;DEFINE"
+    "HEADERS;LIBRARIES;EXECUTABLES;HINTS;HEADER_PATHS;HEADER_SUFFIXES;LIBRARY_PATHS;EXECUTABLE_PATHS;DEFINE"
     ""
     ${ARGN})
   list(GET LIBFIND_DEFAULT_ARGS 0 NAME)
@@ -229,7 +257,8 @@ macro(libfind_lib_with_pkg_config)
     unset(LIBFIND_INCLUDE_DIR CACHE)
     find_path(LIBFIND_INCLUDE_DIR
       NAMES ${h}
-      PATHS ${LIBFIND_HEADER_PATHS})
+      PATHS ${LIBFIND_HEADER_PATHS}
+      PATH_SUFFIXES ${LIBFIND_HEADER_SUFFIXES})
     if (LIBFIND_INCLUDE_DIR)
       list(APPEND LIBFIND_FOUND_INCLUDE_DIRS ${LIBFIND_INCLUDE_DIR})
     else ()
