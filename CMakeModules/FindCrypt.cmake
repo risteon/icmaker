@@ -1,7 +1,7 @@
 # this is for emacs file handling -*- mode: cmake; indent-tabs-mode: nil -*-
 
 # -- BEGIN LICENSE BLOCK ----------------------------------------------
-# Copyright (c) 2016, FZI Forschungszentrum Informatik
+# Copyright (c) 2017, FZI Forschungszentrum Informatik
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without

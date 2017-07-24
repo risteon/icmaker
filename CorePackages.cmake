@@ -1,5 +1,5 @@
 # -- BEGIN LICENSE BLOCK ----------------------------------------------
-# Copyright (c) 2016, FZI Forschungszentrum Informatik
+# Copyright (c) 2017, FZI Forschungszentrum Informatik
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -58,6 +58,7 @@ FIND_PACKAGE(LibArchive)
 FIND_PACKAGE(libwebsockets)
 FIND_PACKAGE(LibXml2)
 FIND_PACKAGE(Ltdl)
+FIND_PACKAGE(Ncomrx)
 FIND_PACKAGE(Newmat)
 FIND_PACKAGE(OpenGL)
   PRINT_LIBRARY_STATUS(OPENGL DETAILS "[${OPENGL_LIBRARIES}]")
@@ -78,10 +79,17 @@ FIND_PACKAGE(SQLite3)
 FIND_PACKAGE(SSL)
 FIND_PACKAGE(Tcmalloc)
 FIND_PACKAGE(Threads)
+
+FIND_PACKAGE(TinyXML)
+IF (TINYXML_FOUND)
+  ADD_DEFINITIONS(-DTIXML_USE_STL)
+ENDIF()
+
 FIND_PACKAGE(Xsd)
 FIND_PACKAGE(Zlib)
 FIND_PACKAGE(Inventor)
 FIND_PACKAGE(Spacenav)
+FIND_PACKAGE(X11)
 
 IF (ICMAKER_USE_PERCEPTION_PACKAGES)
   # perception:

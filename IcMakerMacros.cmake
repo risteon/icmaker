@@ -1,7 +1,7 @@
 # this is for emacs file handling -*- mode: cmake; indent-tabs-mode: nil -*-
 
 # -- BEGIN LICENSE BLOCK ----------------------------------------------
-# Copyright (c) 2016, FZI Forschungszentrum Informatik
+# Copyright (c) 2017, FZI Forschungszentrum Informatik
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -244,7 +244,7 @@ MACRO(ICMAKER_ADD_ROS_SUBDIRECTORY)
   IF(ROS_FOUND)
     ADD_SUBDIRECTORY(${ARGN})
   ELSE()
-    MESSAGE(STATUS "Warning: Omitting ROS subdirectory \"${ARGN}\" because ROS has not been found on the system!")
+    MESSAGE(STATUS "Warning: Omitting ROS subdirectory \"${ARGN}\" because ROS has not been found on the system! See http://wiki.ros.org/ROS/Installation if you want to use these features.")
   ENDIF()
 ENDMACRO()
 
@@ -1046,7 +1046,16 @@ MACRO(ICMAKER_CONFIGURE_PACKAGE)
   else()
     configure_file("${ICMAKER_DIRECTORY}/icmaker_template-config.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/${icmaker_package}-config.cmake" IMMEDIATE @ONLY)
   endif()
-  EXPORT(PACKAGE ${icmaker_package})
+
+  # We do not want to make the packages registered in the User Package Registry to prevent unwanted
+  # finding/linking, especially when using multiple workspaces. That's why we deactivate it here. If
+  # this implies other flaws please consider a new solution!
+  #
+  # More:
+  # https://cmake.org/cmake/help/v3.0/command/export.html
+  # https://ids-git.fzi.de/core/robot_folders/issues/30
+  #
+  #EXPORT(PACKAGE ${icmaker_package})
 
   #  Part 2/3: ${BIN_DIR}/unix-install/${icmaker_package}-config.cmake -> For use *with* "make install"
   set(ICLIB_INCLUDE_DIRS_CONFIGCMAKE "\"\${${icmaker_package}_INSTALL_PATH}/include\"")

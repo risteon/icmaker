@@ -1,7 +1,7 @@
 # this is for emacs file handling -*- mode: cmake; indent-tabs-mode: nil -*-
 
 # -- BEGIN LICENSE BLOCK ----------------------------------------------
-# Copyright (c) 2016, FZI Forschungszentrum Informatik
+# Copyright (c) 2017, FZI Forschungszentrum Informatik
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -54,13 +54,11 @@ include(PrintLibraryStatus)
 include(LibFindMacros)
 
 libfind_lib_with_pkg_config(Halcon halcon
-  HEADER_PATHS "/opt/halcon/include"
-  #HEADER_PATHS "/opt/halcon11/include"
+  HEADER_PATHS "/opt/halcon/include" "/opt/halcon11/include"
   HEADERS HalconC.h
-  LIBRARY_PATHS "/opt/halcon/lib/x86sse2-linux2.4-gcc40"
-  #LIBRARY_PATHS "/opt/halcon11/lib/x64-linux2.4-gcc40"
+  LIBRARY_PATHS "/opt/halcon/lib/x64-linux" "/opt/halcon/lib/x86sse2-linux2.4-gcc40" "/opt/halcon11/lib/x64-linux2.4-gcc40"
   LIBRARIES halconcpp halcon
-  
+
   )
 
 # Add a subdirectory needed by halcon.
